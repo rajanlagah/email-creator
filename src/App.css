@@ -1,0 +1,294 @@
+/* ── Layout ── */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 20px;
+  background: #0f0f0f;
+  border-bottom: 1px solid #2a2a2a;
+  flex-shrink: 0;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.topbar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #007A5A;
+}
+
+.btn-export {
+  padding: 7px 16px;
+  background: #007A5A;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: background 0.15s;
+}
+.btn-export:hover { background: #006048; }
+
+.workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Left Panel ── */
+
+.left-panel {
+  width: 400px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  background: #ffffff;
+  border-right: 1px solid #e5e5e5;
+}
+
+.panel-section {
+  padding: 20px;
+  border-bottom: 1px solid #efefef;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: #f0f0f0;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* ── Form fields ── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.field:last-child { margin-bottom: 0; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1a1a1a;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  resize: vertical;
+}
+.field input:focus,
+.field textarea:focus {
+  border-color: #007A5A;
+  box-shadow: 0 0 0 3px rgba(0, 122, 90, 0.1);
+  background: #fff;
+}
+
+.field input[type="month"] {
+  cursor: pointer;
+}
+
+.badge-optional {
+  font-size: 10px;
+  font-weight: 500;
+  color: #aaa;
+  background: #f5f5f5;
+  border-radius: 3px;
+  padding: 1px 5px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.static-field {
+  font-size: 13px;
+  color: #555;
+  padding: 7px 10px;
+  background: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Buttons ── */
+
+.btn-add {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px;
+  background: #f5f5f5;
+  border: 1px dashed #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn-add:hover {
+  background: #eef7f3;
+  border-color: #007A5A;
+  color: #007A5A;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.btn-delete {
+  color: #aaa;
+}
+.btn-delete:hover {
+  background: #fee;
+  color: #e53e3e;
+}
+
+/* ── Feature Card Editor ── */
+
+.card-editor {
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.card-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #bbb;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  user-select: none;
+  transition: color 0.15s;
+}
+.drag-handle:hover { color: #007A5A; }
+.drag-handle:active { cursor: grabbing; }
+
+.card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #666;
+  letter-spacing: 0.03em;
+  flex: 1;
+}
+
+/* ── F&I Item Editor ── */
+
+.fi-item-editor {
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.fi-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* ── Preview Panel ── */
+
+.preview-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #e8e8e8;
+}
+
+.preview-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888;
+  padding: 8px 16px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.preview-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #fff;
+}
