@@ -2,6 +2,15 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { FeatureCard } from '../types';
 
+// email card inner width: 600px - 2×32px padding = 536px
+const CARD_WIDTH = 536;
+const ASPECT_16_9_HEIGHT = Math.round(CARD_WIDTH * 9 / 16); // 302
+
+function extractYoutubeId(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+}
+
 interface Props {
   card: FeatureCard;
   index: number;
@@ -16,6 +25,25 @@ export default function FeatureCardEditor({ card, index, onChange, onDelete }: P
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.4 : 1,
+  };
+
+  const isNonYoutube = card.isNonYoutube ?? false;
+  const videoHeight = card.videoHeight ?? 200;
+  const thumbnailUrl = card.thumbnailUrl ?? '';
+
+  const youtubeId = card.videoUrl.trim() ? extractYoutubeId(card.videoUrl) : null;
+  const isYoutube = !!youtubeId;
+
+  const hasThumbnail = isYoutube || (isNonYoutube && thumbnailUrl.trim());
+
+  const handleVideoUrlChange = (url: string) => {
+    const id = extractYoutubeId(url);
+    // auto-clear the non-youtube flag when a valid YT url is typed
+    if (id) {
+      onChange({ videoUrl: url, isNonYoutube: false });
+    } else {
+      onChange({ videoUrl: url });
+    }
   };
 
   return (
@@ -57,16 +85,55 @@ export default function FeatureCardEditor({ card, index, onChange, onDelete }: P
         />
       </div>
 
+      {/* VIDEO SECTION */}
       <div className="field">
         <label>
           Video URL <span className="badge-optional">optional</span>
+          {isYoutube && <span className="badge-youtube">YouTube ✓</span>}
         </label>
         <input
           value={card.videoUrl}
-          onChange={e => onChange({ videoUrl: e.target.value })}
-          placeholder="https://youtube.com/..."
+          onChange={e => handleVideoUrlChange(e.target.value)}
+          placeholder="https://youtube.com/watch?v=..."
           type="url"
         />
+      </div>
+
+      <div className="video-options">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={isNonYoutube}
+            disabled={isYoutube}
+            onChange={e => onChange({ isNonYoutube: e.target.checked })}
+          />
+          Non-YouTube video
+        </label>
+
+        {isNonYoutube && (
+          <div className="field" style={{ marginTop: 8 }}>
+            <label>Thumbnail URL</label>
+            <input
+              value={thumbnailUrl}
+              onChange={e => onChange({ thumbnailUrl: e.target.value })}
+              placeholder="https://example.com/thumbnail.jpg"
+              type="url"
+            />
+          </div>
+        )}
+
+        {hasThumbnail && (
+          <div className="video-height-row">
+            <span className="video-height-label">Height: {videoHeight}px</span>
+            <button
+              className="btn-aspect-ratio"
+              onClick={() => onChange({ videoHeight: ASPECT_16_9_HEIGHT })}
+              title={`Set height to ${ASPECT_16_9_HEIGHT}px (16:9)`}
+            >
+              Match thumbnail aspect ratio
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="field-row">

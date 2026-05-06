@@ -27,7 +27,7 @@ export default function LeftPanel({ data, onChange }: Props) {
   };
 
   const addCard = () => {
-    const card: FeatureCard = { id: uid(), tag: '', title: '', description: '', videoUrl: '', ctaText: '', ctaUrl: '' };
+    const card: FeatureCard = { id: uid(), tag: '', title: '', description: '', videoUrl: '', videoHeight: 200, isNonYoutube: false, thumbnailUrl: '', ctaText: '', ctaUrl: '' };
     set({ featureCards: [...data.featureCards, card] });
   };
 

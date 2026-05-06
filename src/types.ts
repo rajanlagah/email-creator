@@ -4,6 +4,9 @@ export interface FeatureCard {
   title: string;
   description: string;
   videoUrl: string;
+  videoHeight: number;
+  isNonYoutube: boolean;
+  thumbnailUrl: string;
   ctaText: string;
   ctaUrl: string;
 }

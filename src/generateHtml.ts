@@ -41,14 +41,30 @@ function cardDivider(): string {
           ${spacer(40)}`;
 }
 
-function videoBlock(videoUrl: string): string {
-  if (!videoUrl.trim()) return '';
+function extractYoutubeId(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+}
+
+function getThumbnailSrc(card: FeatureCard): string | null {
+  if (!card.videoUrl.trim()) return null;
+  if (!(card.isNonYoutube ?? false)) {
+    const id = extractYoutubeId(card.videoUrl);
+    return id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : null;
+  }
+  return (card.thumbnailUrl ?? '').trim() || null;
+}
+
+function videoBlock(card: FeatureCard): string {
+  const thumbSrc = getThumbnailSrc(card);
+  if (!thumbSrc) return '';
+  const height = card.videoHeight ?? 200;
   return `<tr>
                   <td>
-                    <a href="${escAttr(videoUrl)}" target="_blank" style="display:block;text-decoration:none">
+                    <a href="${escAttr(card.videoUrl)}" target="_blank" style="display:block;text-decoration:none">
                       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#042717;border-radius:4px 4px 0 0">
                         <tr>
-                          <td align="center" style="padding:72px 0;font-size:0;line-height:0">
+                          <td align="center" valign="middle" style="background-image:url('${escAttr(thumbSrc)}');background-size:cover;background-position:center center;height:${height}px;font-size:0;line-height:0;border-radius:4px 4px 0 0">
                             <!--[if !mso]><!-->
                             <div style="width:56px;height:56px;border-radius:50%;background-color:#007A5A;display:inline-block;line-height:56px;text-align:center">
                               <span style="color:#ffffff;font-size:20px;margin-left:3px">&#9654;</span>
@@ -83,7 +99,7 @@ function featureCardHtml(card: FeatureCard): string {
   return `<tr>
             <td style="padding:0 32px" class="mobile-pad">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;border:1px solid #E3E2DB;border-radius:4px">
-                ${videoBlock(card.videoUrl)}
+                ${videoBlock(card)}
                 <tr>
                   <td style="padding:22px 28px 0 28px">
                     <span style="font-family:'Geist Mono','SFMono-Regular','Cascadia Mono','Courier New',monospace;font-size:12px;letter-spacing:0.02em;color:#007A5A;text-transform:uppercase;font-weight:600">${esc(card.tag)}</span>
